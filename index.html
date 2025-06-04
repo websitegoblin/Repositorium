@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Geschichtenklang Weberstein</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora&amp;family=Merriweather:wght@400;700&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --parchment: #f9f2e8;
+      --bronze: #b08d57;
+      --thaum: #3466ff;
+      --text: #2c2119;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--parchment);
+      color: var(--text);
+      font-family: 'Lora', serif;
+      line-height: 1.6;
+    }
+    h1, h2, h3 { font-family: 'Merriweather', serif; }
+    header { text-align: center; padding: 1rem; }
+    header h1 { margin: 0.2rem; color: var(--thaum); }
+    header img { width: 80px; height: auto; display: block; margin: 0.5rem auto; }
+    #overview {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      margin: 1rem;
+    }
+    .tile {
+      border: 2px solid var(--bronze);
+      background: var(--parchment);
+      display: flex;
+      flex-direction: column;
+      padding: 0.5rem;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.3s;
+    }
+    .tile strong { display: block; text-align: center; margin-bottom: 0.25rem; }
+    .tile .tile-text { white-space: pre-wrap; display: block; margin: 0; font-size: 0.9rem; }
+    .tile:hover { background: var(--bronze); color: #fff; }
+    footer { text-align: center; padding: 2rem 1rem; font-size: 0.9rem; }
+    #admin-link { margin-top: 1rem; background: #c00; color: #fff; font-weight: bold; border: none; padding: 0.5rem 1rem; text-decoration: none; display: inline-block; }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="crest.svg" alt="Wappen" onerror="this.style.display='none'">
+    <h1>Geschichtenklang Weberstein</h1>
+    <p>Forschergeister – 13 Kurzgeschichten</p>
+  </header>
+  <section id="overview">
+    <a class="tile" href="stories.html#story1"><strong>Story 1</strong><span class="tile-text">Kurzbeschreibung</span></a>
+    <a class="tile" href="stories.html#story2"><strong>Story 2</strong><span class="tile-text">Kurzbeschreibung</span></a>
+    <a class="tile" href="stories.html#story3"><strong>Story 3</strong><span class="tile-text">Kurzbeschreibung</span></a>
+    <a class="tile" href="stories.html#story4"><strong>Story 4</strong><span class="tile-text">Kurzbeschreibung</span></a>
+    <a class="tile" href="stories.html#story5"><strong>Story 5</strong><span class="tile-text">Kurzbeschreibung</span></a>
+    <a class="tile" href="stories.html#story6"><strong>Story 6</strong><span class="tile-text">Kurzbeschreibung</span></a>
+    <a class="tile" href="stories.html#story7"><strong>Story 7</strong><span class="tile-text">Kurzbeschreibung</span></a>
+    <a class="tile" href="stories.html#story8"><strong>Story 8</strong><span class="tile-text">Kurzbeschreibung</span></a>
+    <a class="tile" href="stories.html#story9"><strong>Story 9</strong><span class="tile-text">Kurzbeschreibung</span></a>
+    <a class="tile" href="stories.html#story10"><strong>Story 10</strong><span class="tile-text">Kurzbeschreibung</span></a>
+    <a class="tile" href="stories.html#story11"><strong>Story 11</strong><span class="tile-text">Kurzbeschreibung</span></a>
+    <a class="tile" href="stories.html#story12"><strong>Story 12</strong><span class="tile-text">Kurzbeschreibung</span></a>
+    <a class="tile" href="stories.html#story13"><strong>Story 13</strong><span class="tile-text">Kurzbeschreibung</span></a>
+  </section>
+  <footer>
+    <a id="admin-link" href="stories.html">Nicht drücken</a>
+  </footer>
+  <script>
+    let config;
+    try {
+      const saved = localStorage.getItem('siteConfig');
+      if (saved) config = JSON.parse(saved);
+    } catch(e) {}
+    if (config) {
+      document.title = config.pageTitle;
+      document.querySelector('h1').textContent = config.headerTitle;
+      document.querySelector('header p').textContent = config.subtitle;
+      config.stories.forEach(s => {
+        const tile = document.querySelector(`#overview .tile[href="stories.html#${s.id}"]`);
+        if (!tile) return;
+        tile.hidden = !s.visible;
+        tile.innerHTML = `<strong>${s.tileTitle || s.title}</strong><span class="tile-text">${s.tileDesc || ''}</span>`;
+      });
+    }
+  </script>
+</body>
+</html>
