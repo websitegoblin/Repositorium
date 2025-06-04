@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Geschichtenklang Weberstein</title>
-  <link href="https://fonts.googleapis.com/css2?family=Lora&amp;family=UnifrakturMaguntia&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lora&amp;family=Merriweather:wght@400;700&amp;display=swap" rel="stylesheet">
   <style>
     :root {
       --parchment: #f9f2e8;
@@ -25,8 +25,10 @@
       text-align: center;
       padding: 1rem;
     }
+    h1, h2, h3 {
+      font-family: 'Merriweather', serif;
+    }
     header h1 {
-      font-family: 'UnifrakturMaguntia', cursive;
       font-size: 2.5rem;
       margin: 0.2rem;
       color: var(--thaum);
@@ -76,7 +78,6 @@
       display: block;
     }
     .story-panel h2 {
-      font-family: 'UnifrakturMaguntia', cursive;
       color: var(--thaum);
     }
     .divider {
@@ -88,21 +89,47 @@
     .story-text {
       white-space: pre-wrap;
     }
-    .edit-btn, .toolbar button {
-      margin: 0.5rem 0.2rem;
-      padding: 0.3rem 0.5rem;
-      font-size: 0.9rem;
-      cursor: pointer;
+    .story-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: flex-start;
     }
-    .toolbar {
-      text-align: center;
-      margin-bottom: 0.5rem;
+    .story-content figure {
+      margin: 0;
+      flex: 1 1 300px;
+      max-width: 300px;
+    }
+    .story-content img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    @media (max-width: 600px) {
+      .story-content {
+        flex-direction: column;
+      }
     }
     footer {
       text-align: center;
       padding: 2rem 1rem;
       font-size: 0.9rem;
       border-top: 1px solid var(--bronze);
+    }
+    #admin-login {
+      margin-top: 1rem;
+    }
+    #cms {
+      position: fixed;
+      inset: 0;
+      background: var(--parchment);
+      overflow: auto;
+      padding: 1rem;
+    }
+    #cms textarea {
+      width: 100%;
+      height: 6rem;
+      margin-bottom: 1rem;
     }
     @keyframes fade {
       from { opacity: 0; }
@@ -132,126 +159,138 @@
     <button id="tab12" class="tab" role="tab" aria-controls="story12" aria-selected="false" data-target="story12">12</button>
     <button id="tab13" class="tab" role="tab" aria-controls="story13" aria-selected="false" data-target="story13">13</button>
   </nav>
-<div id="toolbar" class="toolbar" hidden>
-  <button onclick="document.execCommand('bold')"><b>B</b></button>
-  <button onclick="document.execCommand('italic')"><i>I</i></button>
-  <button onclick="document.execCommand('underline')"><u>U</u></button>
-  <button onclick="changeSize('+')">A+</button>
-  <button onclick="changeSize('-')">A-</button>
-  <button onclick="document.execCommand('justifyLeft')">&#x2B05;</button>
-  <button onclick="document.execCommand('justifyCenter')">&#x2194;</button>
-  <button onclick="document.execCommand('justifyRight')">&#x27A1;</button>
-  <button onclick="saveStory()">Speichern</button>
-</div>
   <main>
     <section id="story1" class="story-panel active" role="tabpanel" tabindex="0" aria-labelledby="tab1">
       <h2>Story 1</h2>
       <div class="divider"></div>
-      <div class="story-text">
+      <div class="story-content">
+        <div class="story-text">
 Hier steht die erste Kurzgeschichte. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vehicula tempor orci, sit amet dignissim nunc volutpat sed. Aliquam erat volutpat. Integer gravida velit quis dolor fermentum, ut efficitur turpis vulputate. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+        </div>
+        <figure>
+          <img src="story1.jpg" alt="Bild zu Story 1" onerror="this.style.display='none'">
+        </figure>
       </div>
-      <button class="edit-btn">Bearbeiten</button>
     </section>
     <section id="story2" class="story-panel" role="tabpanel" tabindex="0" aria-labelledby="tab2">
       <h2>Story 2</h2>
       <div class="divider"></div>
-      <div class="story-text">
+      <div class="story-content">
+        <div class="story-text">
 Dies ist der Platzhaltertext der zweiten Geschichte. Nullam convallis, erat non congue porttitor, massa erat ullamcorper augue, vel cursus dolor enim vel ligula.
+        </div>
       </div>
-      <button class="edit-btn">Bearbeiten</button>
     </section>
     <section id="story3" class="story-panel" role="tabpanel" tabindex="0" aria-labelledby="tab3">
       <h2>Story 3</h2>
       <div class="divider"></div>
-      <div class="story-text">
+      <div class="story-content">
+        <div class="story-text">
 Dritte Geschichte. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.
+        </div>
       </div>
-      <button class="edit-btn">Bearbeiten</button>
     </section>
     <section id="story4" class="story-panel" role="tabpanel" tabindex="0" aria-labelledby="tab4">
       <h2>Story 4</h2>
       <div class="divider"></div>
-      <div class="story-text">
+      <div class="story-content">
+        <div class="story-text">
 Vierte Geschichte. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque.
+        </div>
       </div>
-      <button class="edit-btn">Bearbeiten</button>
     </section>
     <section id="story5" class="story-panel" role="tabpanel" tabindex="0" aria-labelledby="tab5">
       <h2>Story 5</h2>
       <div class="divider"></div>
-      <div class="story-text">
+      <div class="story-content">
+        <div class="story-text">
 Fünfte Geschichte. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam.
+        </div>
       </div>
-      <button class="edit-btn">Bearbeiten</button>
     </section>
     <section id="story6" class="story-panel" role="tabpanel" tabindex="0" aria-labelledby="tab6">
       <h2>Story 6</h2>
       <div class="divider"></div>
-      <div class="story-text">
+      <div class="story-content">
+        <div class="story-text">
 Sechste Geschichte. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+        </div>
       </div>
-      <button class="edit-btn">Bearbeiten</button>
     </section>
     <section id="story7" class="story-panel" role="tabpanel" tabindex="0" aria-labelledby="tab7">
       <h2>Story 7</h2>
       <div class="divider"></div>
-      <div class="story-text">
+      <div class="story-content">
+        <div class="story-text">
 Siebte Geschichte. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </div>
       </div>
-      <button class="edit-btn">Bearbeiten</button>
     </section>
     <section id="story8" class="story-panel" role="tabpanel" tabindex="0" aria-labelledby="tab8">
       <h2>Story 8</h2>
       <div class="divider"></div>
-      <div class="story-text">
+      <div class="story-content">
+        <div class="story-text">
 Achte Geschichte. Vivamus efficitur, leo in porta luctus, dolor lectus tempor metus, at sagittis justo nulla non lacus.
+        </div>
       </div>
-      <button class="edit-btn">Bearbeiten</button>
     </section>
     <section id="story9" class="story-panel" role="tabpanel" tabindex="0" aria-labelledby="tab9">
       <h2>Story 9</h2>
       <div class="divider"></div>
-      <div class="story-text">
+      <div class="story-content">
+        <div class="story-text">
 Neunte Geschichte. Sed cursus leo magna, ac facilisis lorem eleifend quis.
+        </div>
       </div>
-      <button class="edit-btn">Bearbeiten</button>
     </section>
     <section id="story10" class="story-panel" role="tabpanel" tabindex="0" aria-labelledby="tab10">
       <h2>Story 10</h2>
       <div class="divider"></div>
-      <div class="story-text">
+      <div class="story-content">
+        <div class="story-text">
 Zehnte Geschichte. Cras vel diam sed urna venenatis dignissim in non tortor.
+        </div>
       </div>
-      <button class="edit-btn">Bearbeiten</button>
     </section>
     <section id="story11" class="story-panel" role="tabpanel" tabindex="0" aria-labelledby="tab11">
       <h2>Story 11</h2>
       <div class="divider"></div>
-      <div class="story-text">
+      <div class="story-content">
+        <div class="story-text">
 Elfte Geschichte. Proin consequat libero at lorem tincidunt, eu bibendum tortor convallis.
+        </div>
       </div>
-      <button class="edit-btn">Bearbeiten</button>
     </section>
     <section id="story12" class="story-panel" role="tabpanel" tabindex="0" aria-labelledby="tab12">
       <h2>Story 12</h2>
       <div class="divider"></div>
-      <div class="story-text">
+      <div class="story-content">
+        <div class="story-text">
 Zwölfte Geschichte. Aenean suscipit ligula at lorem tristique viverra.
+        </div>
       </div>
-      <button class="edit-btn">Bearbeiten</button>
     </section>
     <section id="story13" class="story-panel" role="tabpanel" tabindex="0" aria-labelledby="tab13">
       <h2>Story 13</h2>
       <div class="divider"></div>
-      <div class="story-text">
+      <div class="story-content">
+        <div class="story-text">
 Dreizehnte Geschichte. Integer eu velit nisl. Nulla facilisi.
+        </div>
       </div>
-      <button class="edit-btn">Bearbeiten</button>
     </section>
   </main>
   <footer>
     &copy; 2025 Philipp – Code unter MIT-Lizenz
+    <button id="admin-login">Admin-Login</button>
   </footer>
+  <section id="cms" hidden>
+    <h2>Geschichten verwalten</h2>
+    <div id="cms-list"></div>
+    <button id="cms-save">Speichern</button>
+    <button id="cms-close">Schließen</button>
+  </section>
   <script>
     function showStory(e) {
       const id = e.currentTarget.dataset.target;
@@ -272,46 +311,56 @@ Dreizehnte Geschichte. Integer eu velit nisl. Nulla facilisi.
 
     });
 const ADMIN_PW = 'geheim';
-let admin = false;
-let currentId = null;
-const toolbar = document.getElementById('toolbar');
+const adminBtn = document.getElementById('admin-login');
+const cms = document.getElementById('cms');
+const list = document.getElementById('cms-list');
 
-document.querySelectorAll('.edit-btn').forEach(btn => {
-  btn.addEventListener('click', e => {
-    if (!admin) {
-      const pw = prompt('Passwort eingeben:');
-      if (pw !== ADMIN_PW) return;
-      admin = true;
-    }
-    const panel = e.currentTarget.closest('.story-panel');
-    currentId = panel.id;
-    const text = panel.querySelector('.story-text');
-    text.contentEditable = true;
-    toolbar.hidden = false;
-    text.focus();
-  });
+const stories = [];
+document.querySelectorAll('.story-panel').forEach(panel => {
+  const text = localStorage.getItem(panel.id) || panel.querySelector('.story-text').innerHTML;
+  stories.push({id: panel.id, title: panel.querySelector('h2').textContent, text});
+  panel.querySelector('.story-text').innerHTML = text;
 });
 
-function changeSize(dir) {
-  const size = dir === '+' ? 5 : 3;
-  document.execCommand('fontSize', false, size);
+function openCMS() {
+  list.innerHTML = '';
+  stories.forEach(s => {
+    const div = document.createElement('div');
+    const h3 = document.createElement('h3');
+    h3.textContent = s.title;
+    const ta = document.createElement('textarea');
+    ta.value = s.text;
+    ta.dataset.id = s.id;
+    div.appendChild(h3);
+    div.appendChild(ta);
+    list.appendChild(div);
+  });
+  cms.hidden = false;
 }
 
-function saveStory() {
-  if (!currentId) return;
-  const panel = document.getElementById(currentId);
-  const text = panel.querySelector('.story-text');
-  text.contentEditable = false;
-  localStorage.setItem(currentId, text.innerHTML);
-  toolbar.hidden = true;
-  currentId = null;
-}
-
-document.querySelectorAll('.story-panel').forEach(panel => {
-  const stored = localStorage.getItem(panel.id);
-  if (stored) {
-    panel.querySelector('.story-text').innerHTML = stored;
+adminBtn.addEventListener('click', () => {
+  if (!adminBtn.dataset.auth) {
+    const pw = prompt('Passwort:');
+    if (pw !== ADMIN_PW) return;
+    adminBtn.dataset.auth = '1';
   }
+  openCMS();
+});
+
+document.getElementById('cms-close').addEventListener('click', () => {
+  cms.hidden = true;
+});
+
+document.getElementById('cms-save').addEventListener('click', () => {
+  document.querySelectorAll('#cms-list textarea').forEach(ta => {
+    const id = ta.dataset.id;
+    const text = ta.value;
+    const item = stories.find(s => s.id === id);
+    if (item) item.text = text;
+    document.getElementById(id).querySelector('.story-text').innerHTML = text;
+    localStorage.setItem(id, text);
+  });
+  cms.hidden = true;
 });
   </script>
 </body>
