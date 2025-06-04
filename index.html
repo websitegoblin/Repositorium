@@ -426,14 +426,18 @@ function applyConfig() {
   document.querySelector('header p').textContent = config.subtitle;
   const main = document.querySelector('main');
   const nav = document.querySelector('.tabs');
+  const overview = document.getElementById('overview');
   config.stories.sort((a, b) => a.order - b.order).forEach((s, index) => {
     const section = document.getElementById(s.id);
-    const tab = document.querySelector(`button[data-target="${s.id}"]`);
-    if (!section || !tab) return;
+    const tab = document.querySelector(`.tabs button[data-target="${s.id}"]`);
+    const tile = document.querySelector(`#overview .tile[data-target="${s.id}"]`);
+    if (!section || !tab || !tile) return;
     section.hidden = !s.visible;
     tab.hidden = !s.visible;
+    tile.hidden = !s.visible;
     section.querySelector('h2').textContent = s.title;
     tab.textContent = index + 1;
+    tile.textContent = index + 1;
     const textDiv = section.querySelector('.story-text');
     textDiv.innerHTML = s.text;
     textDiv.classList.remove('align-center', 'align-justify');
@@ -452,6 +456,7 @@ function applyConfig() {
     }
     main.appendChild(section);
     nav.appendChild(tab);
+    overview.appendChild(tile);
   });
 }
 
