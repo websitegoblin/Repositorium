@@ -15,6 +15,8 @@ Im Dashboard kannst du:
 - Die komplette Konfiguration als `json` exportieren
 
 - Uebersichtsseite zeigt alle Geschichten in Kacheln
+- Pro Kachel lassen sich Titel und Kurzbeschreibung bearbeiten
+- Ein "Zurueck zur Uebersicht"-Button fuehrt von jeder Geschichte zum Grid
 - Aktuell hochgeladene Bilder werden im CMS angezeigt und lassen sich skalieren
 - Bilder behalten ihr Seitenverhaeltnis
 

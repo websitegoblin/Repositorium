@@ -165,22 +165,34 @@
     #overview {
       display: grid;
       gap: 1rem;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
       margin: 1rem;
     }
     #overview .tile {
-      aspect-ratio: 1;
       border: 2px solid var(--bronze);
       background: var(--parchment);
       display: flex;
-      align-items: center;
-      justify-content: center;
+      flex-direction: column;
+      padding: 0.5rem;
       cursor: pointer;
       transition: background 0.3s;
+    }
+    #overview .tile strong {
+      display: block;
+      text-align: center;
+      margin-bottom: 0.25rem;
+    }
+    #overview .tile span {
+      display: block;
+      margin: 0;
+      font-size: 0.9rem;
     }
     #overview .tile:hover {
       background: var(--bronze);
       color: #fff;
+    }
+    #back-btn {
+      margin: 1rem;
     }
     @keyframes fade {
       from { opacity: 0; }
@@ -195,20 +207,21 @@
     <p>Forschergeister – 13 Kurzgeschichten</p>
   </header>
   <section id="overview">
-    <button class="tile" data-target="story1">1</button>
-    <button class="tile" data-target="story2">2</button>
-    <button class="tile" data-target="story3">3</button>
-    <button class="tile" data-target="story4">4</button>
-    <button class="tile" data-target="story5">5</button>
-    <button class="tile" data-target="story6">6</button>
-    <button class="tile" data-target="story7">7</button>
-    <button class="tile" data-target="story8">8</button>
-    <button class="tile" data-target="story9">9</button>
-    <button class="tile" data-target="story10">10</button>
-    <button class="tile" data-target="story11">11</button>
-    <button class="tile" data-target="story12">12</button>
-    <button class="tile" data-target="story13">13</button>
+    <button class="tile" data-target="story1"><strong>Story 1</strong><span>Kurzbeschreibung</span></button>
+    <button class="tile" data-target="story2"><strong>Story 2</strong><span>Kurzbeschreibung</span></button>
+    <button class="tile" data-target="story3"><strong>Story 3</strong><span>Kurzbeschreibung</span></button>
+    <button class="tile" data-target="story4"><strong>Story 4</strong><span>Kurzbeschreibung</span></button>
+    <button class="tile" data-target="story5"><strong>Story 5</strong><span>Kurzbeschreibung</span></button>
+    <button class="tile" data-target="story6"><strong>Story 6</strong><span>Kurzbeschreibung</span></button>
+    <button class="tile" data-target="story7"><strong>Story 7</strong><span>Kurzbeschreibung</span></button>
+    <button class="tile" data-target="story8"><strong>Story 8</strong><span>Kurzbeschreibung</span></button>
+    <button class="tile" data-target="story9"><strong>Story 9</strong><span>Kurzbeschreibung</span></button>
+    <button class="tile" data-target="story10"><strong>Story 10</strong><span>Kurzbeschreibung</span></button>
+    <button class="tile" data-target="story11"><strong>Story 11</strong><span>Kurzbeschreibung</span></button>
+    <button class="tile" data-target="story12"><strong>Story 12</strong><span>Kurzbeschreibung</span></button>
+    <button class="tile" data-target="story13"><strong>Story 13</strong><span>Kurzbeschreibung</span></button>
   </section>
+  <button id="back-btn" hidden>Zurück zur Übersicht</button>
   <nav class="tabs" role="tablist" hidden>
     <!-- 13 Buttons -->
     <button id="tab1" class="tab active" role="tab" aria-controls="story1" aria-selected="true" data-target="story1">1</button>
@@ -379,12 +392,22 @@ function openStory(id) {
   document.getElementById('overview').hidden = true;
   document.querySelector('.tabs').hidden = false;
   document.querySelector('main').hidden = false;
+  document.getElementById('back-btn').hidden = false;
   const btn = document.querySelector(`.tab[data-target="${id}"]`);
   if (btn) showStory(btn);
 }
 
+function backToOverview() {
+  document.getElementById('overview').hidden = false;
+  document.querySelector('.tabs').hidden = true;
+  document.querySelector('main').hidden = true;
+  document.getElementById('back-btn').hidden = true;
+  window.scrollTo(0, 0);
+}
+
 document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', showStory));
 document.querySelectorAll('#overview .tile').forEach(t => t.addEventListener('click', () => openStory(t.dataset.target)));
+document.getElementById('back-btn').addEventListener('click', backToOverview);
 
 const ADMIN_PW = 'geheim';
 const adminBtn = document.getElementById('admin-login');
@@ -400,6 +423,7 @@ let config = {
 
 document.querySelectorAll('.story-panel').forEach((panel, i) => {
   const img = panel.querySelector('figure img');
+  const tile = document.querySelector(`#overview .tile[data-target="${panel.id}"]`);
   const story = {
     id: panel.id,
     order: i + 1,
@@ -408,7 +432,9 @@ document.querySelectorAll('.story-panel').forEach((panel, i) => {
     text: panel.querySelector('.story-text').innerHTML,
     image: img ? img.getAttribute('src') : '',
     imageBelow: panel.querySelector('figure')?.classList.contains('below') || false,
-    align: panel.querySelector('.story-text').classList.contains('align-center') ? 'center' : (panel.querySelector('.story-text').classList.contains('align-justify') ? 'justify' : 'left')
+    align: panel.querySelector('.story-text').classList.contains('align-center') ? 'center' : (panel.querySelector('.story-text').classList.contains('align-justify') ? 'justify' : 'left'),
+    tileTitle: tile ? tile.querySelector('strong')?.textContent || panel.querySelector('h2').textContent : panel.querySelector('h2').textContent,
+    tileDesc: tile ? tile.querySelector('span')?.textContent || '' : ''
   };
   config.stories.push(story);
 });
@@ -437,7 +463,7 @@ function applyConfig() {
     tile.hidden = !s.visible;
     section.querySelector('h2').textContent = s.title;
     tab.textContent = index + 1;
-    tile.textContent = index + 1;
+    tile.innerHTML = `<strong>${s.tileTitle || s.title}</strong><span>${s.tileDesc || ''}</span>`;
     const textDiv = section.querySelector('.story-text');
     textDiv.innerHTML = s.text;
     textDiv.classList.remove('align-center', 'align-justify');
@@ -478,6 +504,8 @@ function openCMS() {
       <h4>${story.id}</h4>
       <label>Sichtbar <input class="vis" type="checkbox" ${story.visible ? 'checked' : ''}></label>
       <label>Position <input class="order" type="number" value="${story.order}"></label>
+      <label>Kachel-Titel <input class="tileTitle" type="text" value="${story.tileTitle}"></label>
+      <label>Kurzbeschreibung <textarea class="tileDesc">${story.tileDesc}</textarea></label>
       <label>Titel <input class="title" type="text" value="${story.title}"></label>
       <div class="editor-toolbar">
         <button type="button" data-cmd="bold"><b>B</b></button>
@@ -551,6 +579,8 @@ document.getElementById('cms-save').addEventListener('click', () => {
     const s = config.stories.find(st => st.id === id);
     s.visible = div.querySelector('.vis').checked;
     s.order = parseInt(div.querySelector('.order').value, 10) || 1;
+    s.tileTitle = div.querySelector('.tileTitle').value;
+    s.tileDesc = div.querySelector('.tileDesc').value;
     s.title = div.querySelector('.title').value;
     s.text = div.querySelector('.text').innerHTML;
     s.imageBelow = div.querySelector('.imgBelow').value === 'true';
