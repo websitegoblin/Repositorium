@@ -114,8 +114,6 @@
     .story-content img {
       width: 100%;
       height: auto;
-      aspect-ratio: 3/2;
-      object-fit: cover;
       display: block;
     }
     @media (max-width: 600px) {
@@ -159,6 +157,31 @@
     .editor-toolbar button {
       margin-right: 0.25rem;
     }
+    #cms .preview {
+      display: block;
+      max-width: 100px;
+      margin: 0.5rem 0;
+    }
+    #overview {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      margin: 1rem;
+    }
+    #overview .tile {
+      aspect-ratio: 1;
+      border: 2px solid var(--bronze);
+      background: var(--parchment);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    #overview .tile:hover {
+      background: var(--bronze);
+      color: #fff;
+    }
     @keyframes fade {
       from { opacity: 0; }
       to { opacity: 1; }
@@ -171,7 +194,22 @@
     <h1>Geschichtenklang Weberstein</h1>
     <p>Forschergeister – 13 Kurzgeschichten</p>
   </header>
-  <nav class="tabs" role="tablist">
+  <section id="overview">
+    <button class="tile" data-target="story1">1</button>
+    <button class="tile" data-target="story2">2</button>
+    <button class="tile" data-target="story3">3</button>
+    <button class="tile" data-target="story4">4</button>
+    <button class="tile" data-target="story5">5</button>
+    <button class="tile" data-target="story6">6</button>
+    <button class="tile" data-target="story7">7</button>
+    <button class="tile" data-target="story8">8</button>
+    <button class="tile" data-target="story9">9</button>
+    <button class="tile" data-target="story10">10</button>
+    <button class="tile" data-target="story11">11</button>
+    <button class="tile" data-target="story12">12</button>
+    <button class="tile" data-target="story13">13</button>
+  </section>
+  <nav class="tabs" role="tablist" hidden>
     <!-- 13 Buttons -->
     <button id="tab1" class="tab active" role="tab" aria-controls="story1" aria-selected="true" data-target="story1">1</button>
     <button id="tab2" class="tab" role="tab" aria-controls="story2" aria-selected="false" data-target="story2">2</button>
@@ -187,7 +225,7 @@
     <button id="tab12" class="tab" role="tab" aria-controls="story12" aria-selected="false" data-target="story12">12</button>
     <button id="tab13" class="tab" role="tab" aria-controls="story13" aria-selected="false" data-target="story13">13</button>
   </nav>
-  <main>
+  <main hidden>
     <section id="story1" class="story-panel active" role="tabpanel" tabindex="0" aria-labelledby="tab1">
       <h2>Story 1</h2>
       <div class="divider"></div>
@@ -321,14 +359,15 @@ Dreizehnte Geschichte. Integer eu velit nisl. Nulla facilisi.
     <button id="cms-close">Schließen</button>
   </section>
 <script>
-function showStory(e) {
-  const id = e.currentTarget.dataset.target;
+function showStory(el) {
+  const btn = el.currentTarget || el;
+  const id = btn.dataset.target;
   document.querySelectorAll('.tab').forEach(b => {
     b.classList.remove('active');
     b.setAttribute('aria-selected', 'false');
   });
-  e.currentTarget.classList.add('active');
-  e.currentTarget.setAttribute('aria-selected', 'true');
+  btn.classList.add('active');
+  btn.setAttribute('aria-selected', 'true');
   document.querySelectorAll('.story-panel').forEach(p => {
     const active = p.id === id;
     p.classList.toggle('active', active);
@@ -336,7 +375,16 @@ function showStory(e) {
   document.getElementById(id).scrollIntoView({behavior: 'smooth', block: 'start'});
 }
 
+function openStory(id) {
+  document.getElementById('overview').hidden = true;
+  document.querySelector('.tabs').hidden = false;
+  document.querySelector('main').hidden = false;
+  const btn = document.querySelector(`.tab[data-target="${id}"]`);
+  if (btn) showStory(btn);
+}
+
 document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', showStory));
+document.querySelectorAll('#overview .tile').forEach(t => t.addEventListener('click', () => openStory(t.dataset.target)));
 
 const ADMIN_PW = 'geheim';
 const adminBtn = document.getElementById('admin-login');
@@ -433,6 +481,7 @@ function openCMS() {
       </div>
       <div class="text" contenteditable="true">${story.text}</div>
       <label>Bild <input class="img" type="file"></label>
+      <img class="preview" src="${story.image}" ${story.image ? '' : 'style="display:none"'} alt="Vorschau">
       <label>Bildposition <select class="imgBelow">
           <option value="false">Rechts</option>
           <option value="true" ${story.imageBelow ? 'selected' : ''}>Unterhalb</option>
@@ -450,6 +499,8 @@ function openCMS() {
         r.onload = ev => {
           const url = ev.target.result;
           e.target.dataset.url = url;
+          div.querySelector('.preview').src = url;
+          div.querySelector('.preview').style.display = 'block';
           const imgCheck = new Image();
           imgCheck.onload = () => {
             const portrait = imgCheck.naturalHeight > imgCheck.naturalWidth;

@@ -16,5 +16,6 @@ Im Dashboard kannst du:
 
 - Uebersichtsseite zeigt alle Geschichten in Kacheln
 - Aktuell hochgeladene Bilder werden im CMS angezeigt und lassen sich skalieren
+- Bilder behalten ihr Seitenverhaeltnis
 
 Saemtliche Aenderungen werden im `localStorage` deines Browsers gesichert.
