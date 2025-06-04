@@ -14,4 +14,7 @@ Im Dashboard kannst du:
 - Texte lassen sich im CMS fett, kursiv oder unterstrichen formatieren
 - Die komplette Konfiguration als `json` exportieren
 
+- Uebersichtsseite zeigt alle Geschichten in Kacheln
+- Aktuell hochgeladene Bilder werden im CMS angezeigt und lassen sich skalieren
+
 Saemtliche Aenderungen werden im `localStorage` deines Browsers gesichert.
