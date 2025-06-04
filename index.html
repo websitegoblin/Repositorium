@@ -116,21 +116,21 @@
     <h1>Geschichtenklang Weberstein</h1>
     <p>Forschergeister – 13 Kurzgeschichten</p>
   </header>
-  <nav class="tabs">
+  <nav class="tabs" role="tablist">
     <!-- 13 Buttons -->
-    <button class="tab active" data-target="story1">1</button>
-    <button class="tab" data-target="story2">2</button>
-    <button class="tab" data-target="story3">3</button>
-    <button class="tab" data-target="story4">4</button>
-    <button class="tab" data-target="story5">5</button>
-    <button class="tab" data-target="story6">6</button>
-    <button class="tab" data-target="story7">7</button>
-    <button class="tab" data-target="story8">8</button>
-    <button class="tab" data-target="story9">9</button>
-    <button class="tab" data-target="story10">10</button>
-    <button class="tab" data-target="story11">11</button>
-    <button class="tab" data-target="story12">12</button>
-    <button class="tab" data-target="story13">13</button>
+    <button id="tab1" class="tab active" role="tab" aria-controls="story1" aria-selected="true" data-target="story1">1</button>
+    <button id="tab2" class="tab" role="tab" aria-controls="story2" aria-selected="false" data-target="story2">2</button>
+    <button id="tab3" class="tab" role="tab" aria-controls="story3" aria-selected="false" data-target="story3">3</button>
+    <button id="tab4" class="tab" role="tab" aria-controls="story4" aria-selected="false" data-target="story4">4</button>
+    <button id="tab5" class="tab" role="tab" aria-controls="story5" aria-selected="false" data-target="story5">5</button>
+    <button id="tab6" class="tab" role="tab" aria-controls="story6" aria-selected="false" data-target="story6">6</button>
+    <button id="tab7" class="tab" role="tab" aria-controls="story7" aria-selected="false" data-target="story7">7</button>
+    <button id="tab8" class="tab" role="tab" aria-controls="story8" aria-selected="false" data-target="story8">8</button>
+    <button id="tab9" class="tab" role="tab" aria-controls="story9" aria-selected="false" data-target="story9">9</button>
+    <button id="tab10" class="tab" role="tab" aria-controls="story10" aria-selected="false" data-target="story10">10</button>
+    <button id="tab11" class="tab" role="tab" aria-controls="story11" aria-selected="false" data-target="story11">11</button>
+    <button id="tab12" class="tab" role="tab" aria-controls="story12" aria-selected="false" data-target="story12">12</button>
+    <button id="tab13" class="tab" role="tab" aria-controls="story13" aria-selected="false" data-target="story13">13</button>
   </nav>
 <div id="toolbar" class="toolbar" hidden>
   <button onclick="document.execCommand('bold')"><b>B</b></button>
@@ -144,7 +144,7 @@
   <button onclick="saveStory()">Speichern</button>
 </div>
   <main>
-    <section id="story1" class="story-panel active">
+    <section id="story1" class="story-panel active" role="tabpanel" tabindex="0" aria-labelledby="tab1">
       <h2>Story 1</h2>
       <div class="divider"></div>
       <div class="story-text">
@@ -152,7 +152,7 @@ Hier steht die erste Kurzgeschichte. Lorem ipsum dolor sit amet, consectetur adi
       </div>
       <button class="edit-btn">Bearbeiten</button>
     </section>
-    <section id="story2" class="story-panel">
+    <section id="story2" class="story-panel" role="tabpanel" tabindex="0" aria-labelledby="tab2">
       <h2>Story 2</h2>
       <div class="divider"></div>
       <div class="story-text">
@@ -160,7 +160,7 @@ Dies ist der Platzhaltertext der zweiten Geschichte. Nullam convallis, erat non 
       </div>
       <button class="edit-btn">Bearbeiten</button>
     </section>
-    <section id="story3" class="story-panel">
+    <section id="story3" class="story-panel" role="tabpanel" tabindex="0" aria-labelledby="tab3">
       <h2>Story 3</h2>
       <div class="divider"></div>
       <div class="story-text">
@@ -168,7 +168,7 @@ Dritte Geschichte. Sed ut perspiciatis unde omnis iste natus error sit voluptate
       </div>
       <button class="edit-btn">Bearbeiten</button>
     </section>
-    <section id="story4" class="story-panel">
+    <section id="story4" class="story-panel" role="tabpanel" tabindex="0" aria-labelledby="tab4">
       <h2>Story 4</h2>
       <div class="divider"></div>
       <div class="story-text">
@@ -176,7 +176,7 @@ Vierte Geschichte. At vero eos et accusamus et iusto odio dignissimos ducimus qu
       </div>
       <button class="edit-btn">Bearbeiten</button>
     </section>
-    <section id="story5" class="story-panel">
+    <section id="story5" class="story-panel" role="tabpanel" tabindex="0" aria-labelledby="tab5">
       <h2>Story 5</h2>
       <div class="divider"></div>
       <div class="story-text">
@@ -184,7 +184,7 @@ Fünfte Geschichte. Ut enim ad minima veniam, quis nostrum exercitationem ullam 
       </div>
       <button class="edit-btn">Bearbeiten</button>
     </section>
-    <section id="story6" class="story-panel">
+    <section id="story6" class="story-panel" role="tabpanel" tabindex="0" aria-labelledby="tab6">
       <h2>Story 6</h2>
       <div class="divider"></div>
       <div class="story-text">
@@ -192,7 +192,7 @@ Sechste Geschichte. Duis aute irure dolor in reprehenderit in voluptate velit es
       </div>
       <button class="edit-btn">Bearbeiten</button>
     </section>
-    <section id="story7" class="story-panel">
+    <section id="story7" class="story-panel" role="tabpanel" tabindex="0" aria-labelledby="tab7">
       <h2>Story 7</h2>
       <div class="divider"></div>
       <div class="story-text">
@@ -200,7 +200,7 @@ Siebte Geschichte. Excepteur sint occaecat cupidatat non proident, sunt in culpa
       </div>
       <button class="edit-btn">Bearbeiten</button>
     </section>
-    <section id="story8" class="story-panel">
+    <section id="story8" class="story-panel" role="tabpanel" tabindex="0" aria-labelledby="tab8">
       <h2>Story 8</h2>
       <div class="divider"></div>
       <div class="story-text">
@@ -208,7 +208,7 @@ Achte Geschichte. Vivamus efficitur, leo in porta luctus, dolor lectus tempor me
       </div>
       <button class="edit-btn">Bearbeiten</button>
     </section>
-    <section id="story9" class="story-panel">
+    <section id="story9" class="story-panel" role="tabpanel" tabindex="0" aria-labelledby="tab9">
       <h2>Story 9</h2>
       <div class="divider"></div>
       <div class="story-text">
@@ -216,7 +216,7 @@ Neunte Geschichte. Sed cursus leo magna, ac facilisis lorem eleifend quis.
       </div>
       <button class="edit-btn">Bearbeiten</button>
     </section>
-    <section id="story10" class="story-panel">
+    <section id="story10" class="story-panel" role="tabpanel" tabindex="0" aria-labelledby="tab10">
       <h2>Story 10</h2>
       <div class="divider"></div>
       <div class="story-text">
@@ -224,7 +224,7 @@ Zehnte Geschichte. Cras vel diam sed urna venenatis dignissim in non tortor.
       </div>
       <button class="edit-btn">Bearbeiten</button>
     </section>
-    <section id="story11" class="story-panel">
+    <section id="story11" class="story-panel" role="tabpanel" tabindex="0" aria-labelledby="tab11">
       <h2>Story 11</h2>
       <div class="divider"></div>
       <div class="story-text">
@@ -232,7 +232,7 @@ Elfte Geschichte. Proin consequat libero at lorem tincidunt, eu bibendum tortor 
       </div>
       <button class="edit-btn">Bearbeiten</button>
     </section>
-    <section id="story12" class="story-panel">
+    <section id="story12" class="story-panel" role="tabpanel" tabindex="0" aria-labelledby="tab12">
       <h2>Story 12</h2>
       <div class="divider"></div>
       <div class="story-text">
@@ -240,7 +240,7 @@ Zwölfte Geschichte. Aenean suscipit ligula at lorem tristique viverra.
       </div>
       <button class="edit-btn">Bearbeiten</button>
     </section>
-    <section id="story13" class="story-panel">
+    <section id="story13" class="story-panel" role="tabpanel" tabindex="0" aria-labelledby="tab13">
       <h2>Story 13</h2>
       <div class="divider"></div>
       <div class="story-text">
@@ -255,10 +255,15 @@ Dreizehnte Geschichte. Integer eu velit nisl. Nulla facilisi.
   <script>
     function showStory(e) {
       const id = e.currentTarget.dataset.target;
-      document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
       e.currentTarget.classList.add('active');
+      e.currentTarget.setAttribute('aria-selected', 'true');
       document.querySelectorAll('.story-panel').forEach(p => {
-        p.classList.toggle('active', p.id === id);
+        const active = p.id === id;
+        p.classList.toggle('active', active);
       });
       document.getElementById(id).scrollIntoView({behavior:'smooth', block:'start'});
     }
