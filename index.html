@@ -145,10 +145,19 @@
       overflow: auto;
       padding: 1rem;
     }
-    #cms textarea {
+    #cms textarea,
+    #cms [contenteditable="true"] {
       width: 100%;
-      height: 6rem;
-      margin-bottom: 1rem;
+      min-height: 6rem;
+      margin-bottom: 0.5rem;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+    }
+    .editor-toolbar {
+      margin-bottom: 0.5rem;
+    }
+    .editor-toolbar button {
+      margin-right: 0.25rem;
     }
     @keyframes fade {
       from { opacity: 0; }
@@ -417,7 +426,12 @@ function openCMS() {
       <label>Sichtbar <input class="vis" type="checkbox" ${story.visible ? 'checked' : ''}></label>
       <label>Position <input class="order" type="number" value="${story.order}"></label>
       <label>Titel <input class="title" type="text" value="${story.title}"></label>
-      <textarea class="text">${story.text.replace(/</g, '&lt;')}</textarea>
+      <div class="editor-toolbar">
+        <button type="button" data-cmd="bold"><b>B</b></button>
+        <button type="button" data-cmd="italic"><i>I</i></button>
+        <button type="button" data-cmd="underline"><u>U</u></button>
+      </div>
+      <div class="text" contenteditable="true">${story.text}</div>
       <label>Bild <input class="img" type="file"></label>
       <label>Bildposition <select class="imgBelow">
           <option value="false">Rechts</option>
@@ -433,9 +447,26 @@ function openCMS() {
       const file = e.target.files[0];
       if (file) {
         const r = new FileReader();
-        r.onload = ev => { e.target.dataset.url = ev.target.result; };
+        r.onload = ev => {
+          const url = ev.target.result;
+          e.target.dataset.url = url;
+          const imgCheck = new Image();
+          imgCheck.onload = () => {
+            const portrait = imgCheck.naturalHeight > imgCheck.naturalWidth;
+            div.querySelector('.imgBelow').value = portrait ? 'true' : 'false';
+          };
+          imgCheck.src = url;
+        };
         r.readAsDataURL(file);
       }
+    });
+    div.querySelectorAll('.editor-toolbar button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const cmd = btn.dataset.cmd;
+        const textDiv = div.querySelector('.text');
+        textDiv.focus();
+        document.execCommand(cmd, false, null);
+      });
     });
     list.appendChild(div);
   });
@@ -465,7 +496,7 @@ document.getElementById('cms-save').addEventListener('click', () => {
     s.visible = div.querySelector('.vis').checked;
     s.order = parseInt(div.querySelector('.order').value, 10) || 1;
     s.title = div.querySelector('.title').value;
-    s.text = div.querySelector('.text').value;
+    s.text = div.querySelector('.text').innerHTML;
     s.imageBelow = div.querySelector('.imgBelow').value === 'true';
     s.align = div.querySelector('.align').value;
     const imgInput = div.querySelector('.img');
