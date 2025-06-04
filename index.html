@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Geschichtenklang Weberstein</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora&amp;family=UnifrakturMaguntia&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --parchment: #f9f2e8;
+      --bronze: #b08d57;
+      --thaum: #3466ff;
+      --text: #2c2119;
+      --max-width: 800px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--parchment);
+      color: var(--text);
+      font-family: 'Lora', serif;
+      line-height: 1.6;
+    }
+    header {
+      text-align: center;
+      padding: 1rem;
+    }
+    header h1 {
+      font-family: 'UnifrakturMaguntia', cursive;
+      font-size: 2.5rem;
+      margin: 0.2rem;
+      color: var(--thaum);
+    }
+    header img {
+      width: 80px;
+      height: auto;
+      display: block;
+      margin: 0.5rem auto;
+    }
+    .tabs {
+      display: flex;
+      overflow-x: auto;
+      border-top: 2px solid var(--bronze);
+      border-bottom: 2px solid var(--bronze);
+      background: var(--bronze);
+    }
+    .tabs button {
+      flex: none;
+      padding: 0.5rem 1rem;
+      border: none;
+      background: transparent;
+      color: #fff;
+      font-family: inherit;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .tabs button:hover,
+    .tabs button:focus {
+      background: rgba(0,0,0,0.2);
+      outline: none;
+    }
+    .tabs button.active {
+      background: var(--thaum);
+    }
+    main {
+      max-width: var(--max-width);
+      margin: 1rem auto;
+      padding: 0 1rem;
+    }
+    .story-panel {
+      display: none;
+      animation: fade 0.3s ease-in-out;
+    }
+    .story-panel.active {
+      display: block;
+    }
+    .story-panel h2 {
+      font-family: 'UnifrakturMaguntia', cursive;
+      color: var(--thaum);
+    }
+    .divider {
+      height: 4px;
+      width: 100%;
+      background: var(--bronze);
+      margin: 0.5rem 0 1rem;
+    }
+    .story-text {
+      white-space: pre-wrap;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.9rem;
+      border-top: 1px solid var(--bronze);
+    }
+    @keyframes fade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="crest.svg" alt="Wappen" onerror="this.style.display='none'">
+    <h1>Geschichtenklang Weberstein</h1>
+    <p>Forschergeister – 13 Kurzgeschichten</p>
+  </header>
+  <nav class="tabs">
+    <!-- 13 Buttons -->
+    <button class="tab active" data-target="story1">1</button>
+    <button class="tab" data-target="story2">2</button>
+    <button class="tab" data-target="story3">3</button>
+    <button class="tab" data-target="story4">4</button>
+    <button class="tab" data-target="story5">5</button>
+    <button class="tab" data-target="story6">6</button>
+    <button class="tab" data-target="story7">7</button>
+    <button class="tab" data-target="story8">8</button>
+    <button class="tab" data-target="story9">9</button>
+    <button class="tab" data-target="story10">10</button>
+    <button class="tab" data-target="story11">11</button>
+    <button class="tab" data-target="story12">12</button>
+    <button class="tab" data-target="story13">13</button>
+  </nav>
+  <main>
+    <section id="story1" class="story-panel active">
+      <h2>Story 1</h2>
+      <div class="divider"></div>
+      <div class="story-text">
+Hier steht die erste Kurzgeschichte. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vehicula tempor orci, sit amet dignissim nunc volutpat sed. Aliquam erat volutpat. Integer gravida velit quis dolor fermentum, ut efficitur turpis vulputate. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+      </div>
+    </section>
+    <section id="story2" class="story-panel">
+      <h2>Story 2</h2>
+      <div class="divider"></div>
+      <div class="story-text">
+Dies ist der Platzhaltertext der zweiten Geschichte. Nullam convallis, erat non congue porttitor, massa erat ullamcorper augue, vel cursus dolor enim vel ligula.
+      </div>
+    </section>
+    <section id="story3" class="story-panel">
+      <h2>Story 3</h2>
+      <div class="divider"></div>
+      <div class="story-text">
+Dritte Geschichte. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.
+      </div>
+    </section>
+    <section id="story4" class="story-panel">
+      <h2>Story 4</h2>
+      <div class="divider"></div>
+      <div class="story-text">
+Vierte Geschichte. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque.
+      </div>
+    </section>
+    <section id="story5" class="story-panel">
+      <h2>Story 5</h2>
+      <div class="divider"></div>
+      <div class="story-text">
+Fünfte Geschichte. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam.
+      </div>
+    </section>
+    <section id="story6" class="story-panel">
+      <h2>Story 6</h2>
+      <div class="divider"></div>
+      <div class="story-text">
+Sechste Geschichte. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+      </div>
+    </section>
+    <section id="story7" class="story-panel">
+      <h2>Story 7</h2>
+      <div class="divider"></div>
+      <div class="story-text">
+Siebte Geschichte. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </div>
+    </section>
+    <section id="story8" class="story-panel">
+      <h2>Story 8</h2>
+      <div class="divider"></div>
+      <div class="story-text">
+Achte Geschichte. Vivamus efficitur, leo in porta luctus, dolor lectus tempor metus, at sagittis justo nulla non lacus.
+      </div>
+    </section>
+    <section id="story9" class="story-panel">
+      <h2>Story 9</h2>
+      <div class="divider"></div>
+      <div class="story-text">
+Neunte Geschichte. Sed cursus leo magna, ac facilisis lorem eleifend quis.
+      </div>
+    </section>
+    <section id="story10" class="story-panel">
+      <h2>Story 10</h2>
+      <div class="divider"></div>
+      <div class="story-text">
+Zehnte Geschichte. Cras vel diam sed urna venenatis dignissim in non tortor.
+      </div>
+    </section>
+    <section id="story11" class="story-panel">
+      <h2>Story 11</h2>
+      <div class="divider"></div>
+      <div class="story-text">
+Elfte Geschichte. Proin consequat libero at lorem tincidunt, eu bibendum tortor convallis.
+      </div>
+    </section>
+    <section id="story12" class="story-panel">
+      <h2>Story 12</h2>
+      <div class="divider"></div>
+      <div class="story-text">
+Zwölfte Geschichte. Aenean suscipit ligula at lorem tristique viverra.
+      </div>
+    </section>
+    <section id="story13" class="story-panel">
+      <h2>Story 13</h2>
+      <div class="divider"></div>
+      <div class="story-text">
+Dreizehnte Geschichte. Integer eu velit nisl. Nulla facilisi.
+      </div>
+    </section>
+  </main>
+  <footer>
+    &copy; 2025 Philipp – Code unter MIT-Lizenz
+  </footer>
+  <script>
+    function showStory(e) {
+      const id = e.currentTarget.dataset.target;
+      document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+      e.currentTarget.classList.add('active');
+      document.querySelectorAll('.story-panel').forEach(p => {
+        p.classList.toggle('active', p.id === id);
+      });
+      document.getElementById(id).scrollIntoView({behavior:'smooth', block:'start'});
+    }
+    document.querySelectorAll('.tab').forEach(b => {
+      b.addEventListener('click', showStory);
+    });
+  </script>
+</body>
+</html>
