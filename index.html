@@ -89,6 +89,12 @@
     .story-text {
       white-space: pre-wrap;
     }
+    .story-text.align-center {
+      text-align: center;
+    }
+    .story-text.align-justify {
+      text-align: justify;
+    }
     .story-content {
       display: flex;
       flex-wrap: wrap;
@@ -100,9 +106,16 @@
       flex: 1 1 300px;
       max-width: 300px;
     }
+    .story-content figure.below {
+      order: 2;
+      flex-basis: 100%;
+      max-width: none;
+    }
     .story-content img {
       width: 100%;
       height: auto;
+      aspect-ratio: 3/2;
+      object-fit: cover;
       display: block;
     }
     @media (max-width: 600px) {
@@ -294,51 +307,136 @@ Dreizehnte Geschichte. Integer eu velit nisl. Nulla facilisi.
   <section id="cms" hidden>
     <h2>Geschichten verwalten</h2>
     <div id="cms-list"></div>
+    <button id="cms-export">Export JSON</button>
     <button id="cms-save">Speichern</button>
     <button id="cms-close">Schließen</button>
   </section>
-  <script>
-    function showStory(e) {
-      const id = e.currentTarget.dataset.target;
-      document.querySelectorAll('.tab').forEach(b => {
-        b.classList.remove('active');
-        b.setAttribute('aria-selected', 'false');
-      });
-      e.currentTarget.classList.add('active');
-      e.currentTarget.setAttribute('aria-selected', 'true');
-      document.querySelectorAll('.story-panel').forEach(p => {
-        const active = p.id === id;
-        p.classList.toggle('active', active);
-      });
-      document.getElementById(id).scrollIntoView({behavior:'smooth', block:'start'});
-    }
-    document.querySelectorAll('.tab').forEach(b => {
-      b.addEventListener('click', showStory);
+<script>
+function showStory(e) {
+  const id = e.currentTarget.dataset.target;
+  document.querySelectorAll('.tab').forEach(b => {
+    b.classList.remove('active');
+    b.setAttribute('aria-selected', 'false');
+  });
+  e.currentTarget.classList.add('active');
+  e.currentTarget.setAttribute('aria-selected', 'true');
+  document.querySelectorAll('.story-panel').forEach(p => {
+    const active = p.id === id;
+    p.classList.toggle('active', active);
+  });
+  document.getElementById(id).scrollIntoView({behavior: 'smooth', block: 'start'});
+}
 
-    });
+document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', showStory));
+
 const ADMIN_PW = 'geheim';
 const adminBtn = document.getElementById('admin-login');
 const cms = document.getElementById('cms');
 const list = document.getElementById('cms-list');
 
-const stories = [];
-document.querySelectorAll('.story-panel').forEach(panel => {
-  const text = localStorage.getItem(panel.id) || panel.querySelector('.story-text').innerHTML;
-  stories.push({id: panel.id, title: panel.querySelector('h2').textContent, text});
-  panel.querySelector('.story-text').innerHTML = text;
+let config = {
+  pageTitle: document.title,
+  headerTitle: document.querySelector('h1').textContent,
+  subtitle: document.querySelector('header p').textContent,
+  stories: []
+};
+
+document.querySelectorAll('.story-panel').forEach((panel, i) => {
+  const img = panel.querySelector('figure img');
+  const story = {
+    id: panel.id,
+    order: i + 1,
+    visible: !panel.hidden,
+    title: panel.querySelector('h2').textContent,
+    text: panel.querySelector('.story-text').innerHTML,
+    image: img ? img.getAttribute('src') : '',
+    imageBelow: panel.querySelector('figure')?.classList.contains('below') || false,
+    align: panel.querySelector('.story-text').classList.contains('align-center') ? 'center' : (panel.querySelector('.story-text').classList.contains('align-justify') ? 'justify' : 'left')
+  };
+  config.stories.push(story);
 });
+
+try {
+  const saved = localStorage.getItem('siteConfig');
+  if (saved) config = JSON.parse(saved);
+} catch (e) {}
+
+applyConfig();
+
+function applyConfig() {
+  document.title = config.pageTitle;
+  document.querySelector('h1').textContent = config.headerTitle;
+  document.querySelector('header p').textContent = config.subtitle;
+  const main = document.querySelector('main');
+  const nav = document.querySelector('.tabs');
+  config.stories.sort((a, b) => a.order - b.order).forEach((s, index) => {
+    const section = document.getElementById(s.id);
+    const tab = document.querySelector(`button[data-target="${s.id}"]`);
+    if (!section || !tab) return;
+    section.hidden = !s.visible;
+    tab.hidden = !s.visible;
+    section.querySelector('h2').textContent = s.title;
+    tab.textContent = index + 1;
+    const textDiv = section.querySelector('.story-text');
+    textDiv.innerHTML = s.text;
+    textDiv.classList.remove('align-center', 'align-justify');
+    if (s.align === 'center') textDiv.classList.add('align-center');
+    if (s.align === 'justify') textDiv.classList.add('align-justify');
+    const figure = section.querySelector('figure');
+    if (figure) {
+      const img = figure.querySelector('img');
+      if (s.image) {
+        img.src = s.image;
+        img.style.display = '';
+      } else {
+        img.style.display = 'none';
+      }
+      figure.classList.toggle('below', s.imageBelow);
+    }
+    main.appendChild(section);
+    nav.appendChild(tab);
+  });
+}
 
 function openCMS() {
   list.innerHTML = '';
-  stories.forEach(s => {
+  const g = document.createElement('div');
+  g.innerHTML = `
+    <h3>Globale Texte</h3>
+    <label>Titel <input id="cfg-title" type="text" value="${config.pageTitle}"></label>
+    <label>H1 <input id="cfg-header" type="text" value="${config.headerTitle}"></label>
+    <label>Untertitel <input id="cfg-sub" type="text" value="${config.subtitle}"></label>
+  `;
+  list.appendChild(g);
+  config.stories.forEach(story => {
     const div = document.createElement('div');
-    const h3 = document.createElement('h3');
-    h3.textContent = s.title;
-    const ta = document.createElement('textarea');
-    ta.value = s.text;
-    ta.dataset.id = s.id;
-    div.appendChild(h3);
-    div.appendChild(ta);
+    div.className = 'story-item';
+    div.dataset.id = story.id;
+    div.innerHTML = `
+      <h4>${story.id}</h4>
+      <label>Sichtbar <input class="vis" type="checkbox" ${story.visible ? 'checked' : ''}></label>
+      <label>Position <input class="order" type="number" value="${story.order}"></label>
+      <label>Titel <input class="title" type="text" value="${story.title}"></label>
+      <textarea class="text">${story.text.replace(/</g, '&lt;')}</textarea>
+      <label>Bild <input class="img" type="file"></label>
+      <label>Bildposition <select class="imgBelow">
+          <option value="false">Rechts</option>
+          <option value="true" ${story.imageBelow ? 'selected' : ''}>Unterhalb</option>
+      </select></label>
+      <label>Ausrichtung <select class="align">
+          <option value="left" ${story.align === 'left' ? 'selected' : ''}>links</option>
+          <option value="center" ${story.align === 'center' ? 'selected' : ''}>zentriert</option>
+          <option value="justify" ${story.align === 'justify' ? 'selected' : ''}>Blocksatz</option>
+      </select></label>
+    `;
+    div.querySelector('.img').addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (file) {
+        const r = new FileReader();
+        r.onload = ev => { e.target.dataset.url = ev.target.result; };
+        r.readAsDataURL(file);
+      }
+    });
     list.appendChild(div);
   });
   cms.hidden = false;
@@ -358,16 +456,34 @@ document.getElementById('cms-close').addEventListener('click', () => {
 });
 
 document.getElementById('cms-save').addEventListener('click', () => {
-  document.querySelectorAll('#cms-list textarea').forEach(ta => {
-    const id = ta.dataset.id;
-    const text = ta.value;
-    const item = stories.find(s => s.id === id);
-    if (item) item.text = text;
-    document.getElementById(id).querySelector('.story-text').innerHTML = text;
-    localStorage.setItem(id, text);
+  config.pageTitle = document.getElementById('cfg-title').value;
+  config.headerTitle = document.getElementById('cfg-header').value;
+  config.subtitle = document.getElementById('cfg-sub').value;
+  document.querySelectorAll('.story-item').forEach(div => {
+    const id = div.dataset.id;
+    const s = config.stories.find(st => st.id === id);
+    s.visible = div.querySelector('.vis').checked;
+    s.order = parseInt(div.querySelector('.order').value, 10) || 1;
+    s.title = div.querySelector('.title').value;
+    s.text = div.querySelector('.text').value;
+    s.imageBelow = div.querySelector('.imgBelow').value === 'true';
+    s.align = div.querySelector('.align').value;
+    const imgInput = div.querySelector('.img');
+    if (imgInput.dataset.url) s.image = imgInput.dataset.url;
   });
+  localStorage.setItem('siteConfig', JSON.stringify(config));
+  applyConfig();
   cms.hidden = true;
 });
-  </script>
+
+document.getElementById('cms-export').addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify(config, null, 2)], {type: 'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'geschichten-config.json';
+  a.click();
+});
+
+</script>
 </body>
 </html>
