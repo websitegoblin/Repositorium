@@ -2,7 +2,8 @@
 
 Dieses Repository enthaelt den statischen Quellcode fuer die Kurzgeschichten-Sammlung **„Forschergeister“**.
 
-Oeffne `index.html` in einem modernen Browser, um die dreizehn Geschichten zu lesen. Ein Admin‑Bereich erlaubt es, alle Texte und Layoutoptionen direkt im Browser zu bearbeiten. Klicke auf **Nicht druecken** und gib das Passwort `geheim` ein.
+
+Oeffne `index.html` in einem modernen Browser, um die Uebersicht der Geschichten als Kacheln zu sehen. Jede Kachel fuehrt zu `stories.html` mit der jeweiligen Geschichte. Dort findest du auch den Admin‑Bereich. Klicke auf **Nicht druecken** und gib das Passwort `geheim` ein.
 
 Im Dashboard kannst du:
 
